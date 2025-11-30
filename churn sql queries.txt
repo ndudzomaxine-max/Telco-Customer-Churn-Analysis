@@ -1,0 +1,88 @@
+-- Telco Customer Churn Analysis
+-- SQL Queries for Insights
+
+-- 1. Total Customers
+
+SELECT COUNT(*) AS total_customers
+FROM telco;
+
+-- 2. Total Churned Customers
+
+SELECT COUNT(*) AS churned_customers
+FROM telco
+WHERE "Churn_Value" = 1;
+
+-- 3. Churn Rate (%)
+
+SELECT 
+    ROUND( (SUM("Churn_Value") * 100.0) / COUNT(*), 2 ) AS churn_rate_percent
+FROM telco;
+
+-- 4. Churn by Gender
+
+SELECT Gender, COUNT(*) AS churn_count
+FROM telco
+WHERE "Churn_Value" = 1
+GROUP BY Gender
+ORDER BY churn_count DESC;
+
+-- 5. Churn by Senior Citizen
+
+SELECT "Senior_Citizen", COUNT(*) AS churn_count
+FROM telco
+WHERE "Churn_Value" = 1
+GROUP BY "Senior_Citizen";
+
+-- 6. Churn by Tenure Band
+
+SELECT "Tenure_Band", COUNT(*) AS churn_count
+FROM telco
+WHERE "Churn_Value" = 1
+GROUP BY "Tenure_Band"
+ORDER BY churn_count DESC;
+
+-- 7. Churn by Internet Service
+
+SELECT "Internet_Service", COUNT(*) AS churn_count
+FROM telco
+WHERE "Churn_Value" = 1
+GROUP BY "Internet_Service";
+
+-- 8. Average Monthly Charge (Churned vs Stayed)
+
+SELECT 
+    CASE WHEN "Churn_Value" = 1 THEN 'Churned' ELSE 'Stayed' END AS status,
+    ROUND(AVG("Monthly Charge"), 2) AS avg_monthly_charge
+FROM telco
+GROUP BY status;
+
+-- 9. Churn by Payment Method
+
+SELECT "Payment Method", COUNT(*) AS churn_count
+FROM telco
+WHERE "Churn_Value" = 1
+GROUP BY "Payment Method"
+ORDER BY churn_count DESC;
+
+-- 10. Churn by Contract Type
+
+SELECT Contract, COUNT(*) AS churn_count
+FROM telco
+WHERE "Churn_Value" = 1
+GROUP BY Contract;
+
+-- 11. Churn by Partner Flag
+
+SELECT "Partner_Flag", COUNT(*) AS churn_count
+FROM telco
+WHERE "Churn_Value" = 1
+GROUP BY "Partner_Flag";
+
+-- 12. Top 10 Zip Codes with Highest Churn
+
+SELECT "Zip_Code", COUNT(*) AS churn_count
+FROM telco
+WHERE "Churn_Value" = 1
+GROUP BY "Zip_Code"
+ORDER BY churn_count DESC
+LIMIT 10;
